@@ -2,7 +2,6 @@
     width: 50%;
     height: 20%;
     background-color: whitesmoke;
-    display: flex;
     justify-content: center;
     margin: 3% auto auto auto;
     gap: 3%;
@@ -10,3 +9,14 @@
     flex-wrap: wrap;
     border-radius: 20px;
 }
+.outer {
+    background-color: whitesmoke;
+    justify-content: center;
+    display: inline;
+    margin: 3% auto auto auto;
+    gap: 3%;
+    align-items: center;
+    flex-wrap: wrap;
+    border-radius: 20px;
+}
+
