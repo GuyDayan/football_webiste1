@@ -1,81 +1,89 @@
 import React, {useState, useEffect} from 'react';
 import "../css/LoginPage.css";
-import axios from "axios";
 import {sendApiPostRequest} from "../ApiRequests";
-import {useHistory} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
-export function SignUp(){
-    const [signUser, setSignUser]= useState('');
-    const [signPass, setSignPass]= useState('');
-    const [signPassCheck, setSignPassCheck]= useState('');
-    const [userData, setUserData]= useState({username:'',password:''})
-    const [error, setError] = useState(null);
-    const [data,setData] = useState(null);
-    const [redirect,setRedirect] = useState(false);
-    let history = useHistory();
-    let user;
+export function SignUp() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [secondPassword, setSecondPassword] = useState('');
+    const [currentErrorCode, setCurrentErrorCode] = useState('');
+    const [showError, setShowError] = useState(false);
+    const [signUpSuccess, setSignUpSuccess] = useState(false);
+    const [errorList, setErrorList] = useState([
+        {errorCode: 1, reason: "username must contain @"},
+        {errorCode: 2, reason: "password length must be at least 8 digits"},
+        {errorCode: 3, reason: "username already exist"}
+    ]);
 
 
-
-    const onSignup =()=> {
-        if((signPass.length >= 8)&&(signPassCheck === signPass)) {
-            let newUser={username: signUser, password: signPass}
-            setUserData(newUser);
-            let signUpResponse ="";
-            sendApiPostRequest("http://localhost:8989/create-user?", {username: newUser.username, password: newUser.password}, (response) => {
-                signUpResponse = response.data;
-            });
-            if(signUpResponse.success) {
+    const onSignup = () => {
+        let signUpResponse;
+        sendApiPostRequest("http://localhost:8989/create-user?", {
+            username: username,
+            password: password
+        }, (response) => {
+            signUpResponse = response.data;
+            if (signUpResponse.success) {
                 window.$userDetails.loggedIn = true;
-                user = signUpResponse.user;
+                let user = signUpResponse.user;
                 window.$userDetails.userId = user.id;
                 window.$userDetails.token = user.token;
-                setRedirect(true);
-
-
-
-            }else
-            {
-                setError(signUpResponse.errorCode);
+                setSignUpSuccess(true)
+            } else {
+                setCurrentErrorCode(signUpResponse.errorCode);
+                setShowError(true);
             }
-            if(redirect === true){
-                history.push("/start-match")
-
-            }
-        }
+        });
     }
 
-
-
+    const findError = () => {
+        let foundError = errorList.find(error => error.errorCode === currentErrorCode);
+        return foundError.reason;
+    }
     return (
-        <div className="login-container">
-            <span className="login-title">Sign Up</span>
-            <div className="fields-container">
-                <div>
-                    <div className="fields-text">Username</div>
-                    <input value={signUser} onChange={(event => setSignUser(event.target.value))}/>
-                </div>
 
-                <div>
-                    <div className="fields-text">Password</div>
-                    <input value={signPass} onChange={(event => setSignPass(event.target.value))}/>
-                </div>
-                <div>
-                    <div className="fields-text">Enter password again</div>
-                    <input value={signPassCheck} onChange={(event => setSignPassCheck(event.target.value))}/>
-                </div>
-            </div>
-            {(signPass !== signPassCheck) && (signPassCheck.length > 0) &&
-                <div>Passwords dont match</div>
+        <>
+            {
+                signUpSuccess === true ? <div>
+                        <h2>Sign-Up has been successfully! </h2>
+                    <NavLink to={"/login"}>
+                    Click here to Login
+                    </NavLink>
+                    </div> :
+                    <div className="login-container">
+                        <span className="login-title">Sign Up</span>
+                        <div className="fields-container">
+                            <div>
+                                <div className="fields-text">Username</div>
+                                <input value={username} onChange={(event => setUsername(event.target.value))}/>
+                            </div>
+
+                            <div>
+                                <div className="fields-text">Password</div>
+                                <input type={"password"} value={password} onChange={(event => setPassword(event.target.value))} />
+                            </div>
+                            <div>
+                                <div className="fields-text">Enter password again</div>
+                                <input type={"password"} value={secondPassword} onChange={(event => setSecondPassword(event.target.value))}/>
+                            </div>
+                        </div>
+                        {
+                            (password !== secondPassword) && (password.length > 0 && secondPassword.length > 0) &&
+                            <div>Passwords dont match</div>
+                        }
+                        <div>
+                            <button className="login-button" onClick={onSignup}>Sign up</button>
+                        </div>
+                        <div>
+                            {showError === true && findError()}
+                        </div>
+                    </div>
             }
-            { ((signPass.length < 8)&&(signPass.length !== 0))&&
-                <div>Password must contain at least 8</div>
-            }
-            <div>
-                <button className="login-button" onClick={onSignup}>Sign up</button>
-            </div>
-        </div>
+
+        </>
+
 
     )
 }

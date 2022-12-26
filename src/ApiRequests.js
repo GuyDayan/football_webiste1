@@ -10,6 +10,20 @@ export const sendApiGetRequest = (request, callback) => {
         })
 }
 
+export const sendApiGetRequestWithParams = (request ,params, callback) => {
+    axios.get(request, {
+        params
+    })
+        .then(response => {
+            if (callback) {
+                callback(response);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
 
 export const sendApiPostRequest = (request, params, callback) => {
     axios.post(request, null, {
