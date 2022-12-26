@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import '../css/startMatch.css'
-import {useEffect} from "react";
 import axios from "axios";
 import {sendApiGetRequest, sendApiGetRequestWithParams, sendApiPostRequest} from "../ApiRequests";
 import NewMatch from "./NewMatch";
@@ -12,21 +11,26 @@ export function StartMatch(props) {
     const [teams, setTeams] = useState([]);
     const [team1Score, setTeam1Score] = useState('0');
     const [team2Score, setTeam2Score] = useState('0');
-    const [newMatches, setNewMatches] = useState([]);
+    const [liveMatches, setLiveMatches] = useState('');
+    const [liveMatchChangeFlag, setLiveMatchChangeFlag] = useState(false);
 
     useEffect(() => {
         let currentUserId = window.$userDetails.userId;
         let currentToken = window.$userDetails.token;
-        sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {
-            userId: currentUserId,
-            token: currentToken
-        }, (response) => {
+        sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {userId: currentUserId, token: currentToken}, (response) => {
             let response1 = response.data;
             const teams = response1.teamList;
             setTeams(teams)
-
         })
-    }, [newMatches])
+
+        sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {userId: currentUserId, token: currentToken}, (response) => {
+            let getLiveMatchResponse = response.data;
+            const liveMatches = getLiveMatchResponse.matches;
+            setLiveMatches(liveMatches)
+        })
+
+
+    }, [liveMatchChangeFlag])
 
 
     const handleTeam1Options = (event) => {
@@ -50,20 +54,15 @@ export function StartMatch(props) {
                 token: window.$userDetails.token
             }, (response) => {
                 const newMatch = response.data.newMatch;
-                console.log(newMatch);
-                setNewMatches(newMatches.concat(newMatch));
-                console.log(newMatches);
-
-
+                setLiveMatches(liveMatches.concat(newMatch));
             });
         }
     }
 
+    const handleUpdateMatchList =()=>{
+        setLiveMatchChangeFlag(!liveMatchChangeFlag)
 
-
-
-
-
+    }
 
 
     return (
@@ -96,8 +95,7 @@ export function StartMatch(props) {
             </div>
         </div>
             <div className={"matches"}>
-            {newMatches.length > 0 &&
-                newMatches.map(match => <NewMatch match={match}/>)}
+            {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
             </div>
 
 

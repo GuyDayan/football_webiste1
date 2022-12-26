@@ -26,7 +26,6 @@ export function SignUp() {
         }, (response) => {
             signUpResponse = response.data;
             if (signUpResponse.success) {
-                window.$userDetails.loggedIn = true;
                 let user = signUpResponse.user;
                 window.$userDetails.userId = user.id;
                 window.$userDetails.token = user.token;

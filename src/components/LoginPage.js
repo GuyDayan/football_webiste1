@@ -38,7 +38,7 @@ function LoginPage() {
     return (
         <>
 
-            {loginSuccess === true ? <StartMatch/> : <div className="login-container">
+            { window.$userDetails.loggedIn === true ? <StartMatch/> : <div className="login-container">
                 <span className="login-title">Welcome To Login Page</span>
                 Doesn't have a user? <NavLink to={"/signup"}>Sign up</NavLink>
                 <div className="fields-container">
