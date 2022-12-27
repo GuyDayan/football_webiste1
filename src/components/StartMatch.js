@@ -2,7 +2,7 @@ import React, {useState , useEffect} from "react";
 import '../css/startMatch.css'
 import axios from "axios";
 import {sendApiGetRequest, sendApiGetRequestWithParams, sendApiPostRequest} from "../ApiRequests";
-import NewMatch from "./NewMatch";
+import UpdateLiveMatch from "./UpdateLiveMatch";
 
 
 export function StartMatch(props) {
@@ -61,7 +61,6 @@ export function StartMatch(props) {
 
     const handleUpdateMatchList =()=>{
         setLiveMatchChangeFlag(!liveMatchChangeFlag)
-
     }
 
 
@@ -95,9 +94,8 @@ export function StartMatch(props) {
             </div>
         </div>
             <div className={"matches"}>
-            {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
+            {liveMatches.length > 0 && liveMatches.map(newMatch => <UpdateLiveMatch newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
             </div>
-
 
         </div>
     )

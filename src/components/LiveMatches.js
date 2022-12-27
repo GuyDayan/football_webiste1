@@ -1,37 +1,53 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import "../css/livematches.css"
-import TeamLogo from "../TeamLogo";
 import {useEffect} from "react";
-import {sendApiGetRequest} from "../ApiRequests";
+import {sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
+import LiveMatch from "./LiveMatch";
+import UpdateLiveMatch from "./UpdateLiveMatch";
 
 
 function LiveMatches() {
-    let data;
+    const [liveMatches,setLiveMatches]= useState([])
+    const [teams, setTeams] = useState([]);
+    const [liveTableUpdateFlag, setLiveTableUpdateFlag] = useState(false);
+
 
     useEffect(() => {
-        sendApiGetRequest("http://localhost:8989/get-live-matches?", (response) => {
-            data = response.data;
+        let currentUserId = window.$userDetails.userId;
+        let currentToken = window.$userDetails.token;
+        sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {userId: currentUserId, token: currentToken}, (response) => {
+            let response1 = response.data;
+            const teams = response1.teamList;
+            setTeams(teams);
         })
-    },)
+        sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {userId: currentUserId, token: currentToken}, (response) => {
+            let getLiveMatchResponse = response.data;
+            const liveMatches = getLiveMatchResponse.matches;
+            setLiveMatches(liveMatches)
+        })
+    }, [window.$userDetails.updateMatchFlag])
+
+
+
+
+    const getCurrentLiveMatch = (match) => {
+        let team1Id = match.team1.id;
+        let team2Id = match.team2.id;
+        let team1Goals = match.team1_goals;
+        let team2Goals = match.team2_goals;
+        let team1 = teams.find(t=> t.id === team1Id)
+        let team2 = teams.find(t=> t.id === team2Id)
+        let team1Name =team1.name
+        let team2Name =team2.name
+        const currentMatch = {team1Name,team2Name ,team1Goals ,team2Goals}
+        return currentMatch;
+    }
 
     return (
         <>
-            <div className={'vs'}>
                 {
-                    data.filter(item => item.is_live === true).map(item => (
-                        <div key={item.id} className={'teamVsteam'}>
-                            <img src={TeamLogo[item.team1.id -1].src} style={{width:'50px',height:'50px'}}/>
-                            {item.team1.name}
-                            &nbsp;
-                                VS
-                            &nbsp;
-                            {item.team2.name}
-                            <img src={TeamLogo[item.team2.id -1].src} style={{width:'50px',height:'50px'}} />
-                        </div>
-                    ))
+                    liveMatches.length > 0 ? liveMatches.map(match => <LiveMatch currentLiveMatch={getCurrentLiveMatch(match)}/>) : 'No live matches'
                 }
-            </div>
-
         </>
     );
 }

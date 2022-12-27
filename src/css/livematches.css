@@ -1,9 +1,10 @@
 .vs {
-    display: flex;
+    display: table-row;
     justify-content: center;
     align-content: center;
+    text-align: center;
     height: auto;
-    width: 45%;
+    width: 20%;
     background-color: beige;
     margin: 10px auto auto auto;
     border-radius: 10px;

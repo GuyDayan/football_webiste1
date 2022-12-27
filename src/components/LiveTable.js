@@ -30,9 +30,6 @@ function LiveTable() {
                 <tbody>
                 {data.map(item => (
                     <tr>
-                        <td>
-                            <img src={TeamLogo[item.id -1].src} style={{width:'30px',height:'30px'}} />
-                        </td>
                         <td>{item.name}</td>
                         <td>{item.numberOfWins}</td>
                         <td>{item.numberOfLoses}</td>

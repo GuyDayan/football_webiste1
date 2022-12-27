@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {sendApiPostRequest} from "../ApiRequests";
 
-function NewMatch(props) {
+function UpdateLiveMatch(props) {
     let currentNewMatch = props.newMatch;
-    let updateMatchList = props.handleUpdateMatchList;
     const [team1Goals, setTeam1Goals] = useState(currentNewMatch.team1_goals);
     const [team2Goals, setTeam2Goals] = useState(currentNewMatch.team2_goals);
+
 
 
     function updateMatchScore() {
@@ -14,9 +14,14 @@ function NewMatch(props) {
             team1Goals: team1Goals,
             team2Goals: team2Goals,
             userId: window.$userDetails.userId,
-            token: window.$userDetails.token
+            token: window.$userDetails.token,
         }, (response) => {
+
         });
+        let flag = window.$userDetails.updateMatchFlag
+        window.$userDetails.updateMatchFlag = !flag
+        console.log(window.$userDetails.updateMatchFlag)
+
     }
 
     function endMatch() {
@@ -27,6 +32,7 @@ function NewMatch(props) {
         }, (response) => {
         });
         props.updateLiveMatchesList();
+
     }
 
     return (
@@ -42,4 +48,4 @@ function NewMatch(props) {
     );
 }
 
-export default NewMatch;
+export default UpdateLiveMatch;
