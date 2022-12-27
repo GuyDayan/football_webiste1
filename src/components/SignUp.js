@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import "../css/LoginPage.css";
+import "../css/signup.css";
 import {sendApiPostRequest} from "../ApiRequests";
 import {NavLink} from "react-router-dom";
 
@@ -42,47 +43,36 @@ export function SignUp() {
         return foundError.reason;
     }
     return (
-
-        <>
-            {
-                signUpSuccess === true ? <div>
-                        <h2>Sign-Up has been successfully! </h2>
-                    <NavLink to={"/login"}>
-                    Click here to Login
-                    </NavLink>
-                    </div> :
-                    <div className="login-container">
-                        <span className="login-title">Sign Up</span>
-                        <div className="fields-container">
-                            <div>
-                                <div className="fields-text">Username</div>
-                                <input value={username} onChange={(event => setUsername(event.target.value))}/>
-                            </div>
-
-                            <div>
-                                <div className="fields-text">Password</div>
-                                <input type={"password"} value={password} onChange={(event => setPassword(event.target.value))} />
-                            </div>
-                            <div>
-                                <div className="fields-text">Enter password again</div>
-                                <input type={"password"} value={secondPassword} onChange={(event => setSecondPassword(event.target.value))}/>
-                            </div>
-                        </div>
+        <div className={"signup-container"}>
+            {signUpSuccess === true ? (
+                <div>
+                    <h2>Sign-Up has been successfully! </h2>
+                    <NavLink to={"/login"}>Click here to Login</NavLink>
+                </div>
+            ) : (
+                <div>
+                    <form>
+                        <label htmlFor={"username"}>Username</label>
+                        <input type={"text"} id={"username"} value={username} onChange={event => setUsername(event.target.value)}/>
+                        <label className="fields-text">Password</label>
+                        <input type={"password"} value={password} onChange={event => setPassword(event.target.value)}/>
+                        <label className="fields-text">Enter password again</label>
+                        <input type={"password"} value={secondPassword} onChange={event => setSecondPassword(event.target.value)}/>
+                        <br/>
+                        <button className="login-button" onClick={onSignup}>Sign up</button>
+                    </form>
+                    <div>
                         {
                             (password !== secondPassword) && (password.length > 0 && secondPassword.length > 0) &&
                             <div>Passwords dont match</div>
                         }
-                        <div>
-                            <button className="login-button" onClick={onSignup}>Sign up</button>
-                        </div>
-                        <div>
-                            {showError === true && findError()}
-                        </div>
                     </div>
-            }
-
-        </>
-
-
+                    <div>
+                        {showError === true && findError()}
+                    </div>
+                </div>
+            )}
+        </div>
     )
+
 }
