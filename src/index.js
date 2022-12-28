@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-window.$userDetails = [{userId: '' ,token: '',loggedIn: ''}]
+window.$userDetails = [{userId: '' ,token: '',loggedIn: '' , updateMatchFlag:false}]
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
