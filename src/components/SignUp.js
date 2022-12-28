@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import "../css/signup.css";
 import {sendApiPostRequest} from "../ApiRequests";
 import {NavLink} from "react-router-dom";

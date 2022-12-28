@@ -5,8 +5,11 @@ function LiveMatch(props) {
     let liveMatch = props.currentLiveMatch;
     return (
         <div className={'live-match'}>
-            <div>{liveMatch.team1Name} {liveMatch.team1Goals}</div> Vs
-            <div>{liveMatch.team2Name} {liveMatch.team2Goals}</div>
+            <div>{liveMatch.team1Name} <br/> {liveMatch.team1Goals}</div>
+            &nbsp;
+            <div>Vs</div>
+            &nbsp;
+            <div>{liveMatch.team2Name} <br/>  {liveMatch.team2Goals}</div>
         </div>
     );
 }

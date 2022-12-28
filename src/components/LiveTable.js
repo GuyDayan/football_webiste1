@@ -10,15 +10,22 @@ function LiveTable() {
 
     useEffect(() => {
         fetchData();
+        const interval = setInterval(() => {}, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     async function fetchData() {
-        sendApiGetRequestWithParams("http://localhost:8989/get-live-table?", {userId: window.$userDetails.userId, token: window.$userDetails.token} , (response) => {
-            let currentResponse = response.data;
-            let currentTeamStats = currentResponse.teamStats;
-            calculateTeamsStats(currentTeamStats);
-        });
+        sendApiGetRequestWithParams(
+            "http://localhost:8989/get-live-table?",
+            { userId: window.$userDetails.userId, token: window.$userDetails.token },
+            (response) => {
+                let currentResponse = response.data;
+                let currentTeamStats = currentResponse.teamStats;
+                calculateTeamsStats(currentTeamStats);
+            }
+        );
     }
+
 
 
 
@@ -39,6 +46,7 @@ function LiveTable() {
     return (
         <>
             {loggedIn ?
+
                 <table>
                     <thead>
                     <tr>

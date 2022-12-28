@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import "../css/LoginPage.css";
 import {StartMatch} from "./StartMatch";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {sendApiGetRequest, sendApiPostRequest} from "../ApiRequests";
 
 
@@ -12,8 +12,6 @@ function LoginPage(props) {
     const [error, setError] = useState(null);
     const [loginSuccess, setLoginSuccess] = useState(false);
     let user = {id: '', username: '', token: '', creationDate: ''};
-
-
 
 
     const onLogin = () => {

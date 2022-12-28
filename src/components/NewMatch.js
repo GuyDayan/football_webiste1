@@ -19,6 +19,7 @@ function NewMatch(props) {
 
         });
         props.updateLiveMatchesList();
+        window.$userDetails.updateMatchFlag = !window.$userDetails.updateMatchFlag
 
     }
 
@@ -30,6 +31,8 @@ function NewMatch(props) {
         }, (response) => {
         });
         props.updateLiveMatchesList();
+        window.$userDetails.updateMatchFlag = !window.$userDetails.updateMatchFlag
+
 
     }
 

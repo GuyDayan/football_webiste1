@@ -23,17 +23,32 @@ function LiveMatches() {
                 const teams = response1.teamList;
                 setTeams(teams);
             })
-            sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {
-                userId: window.$userDetails.userId,
-                token: window.$userDetails.token
-            }, (response) => {
-                let getLiveMatchResponse = response.data;
-                const liveMatches = getLiveMatchResponse.matches;
-                console.log("here")
-                setLiveMatches(liveMatches)
-            })
+
         }
-    }, [window.$userDetails.updateMatchFlag])
+    }, [])
+
+    useEffect(() => {
+        fetchData()
+        return () => {
+            const interval = setInterval(() => {
+            }, 5000);
+            return () => clearInterval(interval);
+        };
+    }, []);
+
+    async function fetchData(){
+        sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {
+            userId: window.$userDetails.userId,
+            token: window.$userDetails.token
+        }, (response) => {
+            let getLiveMatchResponse = response.data;
+            const liveMatches = getLiveMatchResponse.matches;
+            console.log("here")
+            setLiveMatches(liveMatches)
+        })
+
+    }
+
 
 
     const getCurrentLiveMatch = (match) => {

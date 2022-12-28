@@ -70,7 +70,6 @@ export function StartMatch(props) {
                     setCurrentErrorCode(newLiveMatchResponse.errorCode)
                     setShowError(true)
                     setShowSuccessful(false)
-
                 }
 
             });
@@ -80,8 +79,7 @@ export function StartMatch(props) {
 
 
     const handleUpdateMatchList =()=>{
-        setLiveMatchChangeFlag(!liveMatchChangeFlag)
-        console.log("fff")
+        setLiveMatchChangeFlag(() => !liveMatchChangeFlag)
     }
 
 

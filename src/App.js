@@ -9,9 +9,8 @@ import About from "./components/About";
 import Settings from "./components/Settings";
 import {SignUp} from "./components/SignUp";
 import {StartMatch} from "./components/StartMatch";
-import {sendApiGetRequest} from "./ApiRequests";
+import {sendApiGetRequest, sendApiGetRequestWithParams} from "./ApiRequests";
 import {useEffect, useState} from "react";
-
 
 
 function App() {
@@ -20,48 +19,55 @@ function App() {
 
 
     useEffect(() => {
+            sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {
+                userId: window.$userDetails.userId,
+                token: window.$userDetails.token
+            }, (response) => {
+                let response1 = response.data;
+                const teams = response1.teamList;
+                setTeams(teams);
+            })
 
-    }, [])
+        }, []
+    )
 
 
-    const getStateByName = (propsName) => {
-        let currentState;
-        console.log(teams+ "testttt")
-        if (propsName === 'teams')  currentState = teams;
-        return currentState
-    }
+
 
     return (
         <div>
             <div className='TitleBar'>Football Website</div>
-                <BrowserRouter>
-                    <div className='container'>
-                        <div className='Sidebar'>
-                            <ul className='SidebarList'>
-                                {SidebarData.map((item, key) => {
-                                    return (
-                                        <li key={key} className="SidebarRow" >
+            <BrowserRouter>
+                <div className='container'>
+                    <div className='Sidebar'>
+                        <ul className='SidebarList'>
+                            {SidebarData.map((item, key) => {
+                                return (
+                                    <>
+                                        <li key={key} className="SidebarRow">
                                             <NavLink to={item.link} className="NavRow">
                                                 <div id='icon'>{item.icon}</div>
                                                 <div id='title'>{item.title}</div>
                                             </NavLink>
                                         </li>
-                                    )
-                                })}
-                            </ul>
-                        </div>
-                        <Routes>
-                            <Route path={"/live-matches"} element={<LiveMatches />} />
-                            <Route path={"/table"} element={<Table />} />
-                            <Route path={"/live-table"} element={<LiveTable />} />
-                            <Route path={"/login"} element={<LoginPage />} />
-                            <Route path={"/about"} element={<About />} />
-                            <Route path={"/settings"} element={<Settings />} />
-                            <Route path={"/signup"} element ={<SignUp />} />
-                            <Route path={"/start-match"} element={<StartMatch />} />
-                        </Routes>
+                                    </>
+
+                                )
+                            })}
+                        </ul>
                     </div>
-                </BrowserRouter>
+                    <Routes>
+                        <Route path={"/live-matches"} element={<LiveMatches/>}/>
+                        <Route path={"/table"} element={<Table/>}/>
+                        <Route path={"/live-table"} element={<LiveTable/>}/>
+                        <Route path={"/login"} element={<LoginPage/>}/>
+                        <Route path={"/about"} element={<About/>}/>
+                        <Route path={"/settings"} element={<Settings/>}/>
+                        <Route path={"/signup"} element={<SignUp/>}/>
+                        <Route path={"/start-match"} element={<StartMatch/>}/>
+                    </Routes>
+                </div>
+            </BrowserRouter>
             )
         </div>
     );
