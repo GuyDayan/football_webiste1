@@ -75,7 +75,7 @@ export function SignUp() {
                             <div>Passwords dont match</div>
                         }
                         <div>
-                            <button className="login-button" onClick={onSignup}>Sign up</button>
+                            <button className={"submit"} onClick={onSignup}>Sign up</button>
                         </div>
                         <div>
                             {showError === true && findError()}

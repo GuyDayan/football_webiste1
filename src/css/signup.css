@@ -2,30 +2,54 @@
 .fields-text {
     display: block;
     text-align: center;
+    margin: 10px 0;
+    color: #666;
+
+
 }
 .signup-title {
-    margin: 0px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    color: #333;
+
+}
+
+input {
+    width:200px;
+    height: 20px;
 }
 
 
-button[type="submit"] {
-    width: 100%;
-    background-color: #4CAF50;
+.submit {
     color: white;
-    margin: 8px 0;
     border-radius: 4px;
     cursor: pointer;
+    width: 200px;
+    height: 40px;
+    margin: 20px 0;
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    /* Add a hover effect to the gradient */
+    background-size: 200% auto;
+    transition: all .5s ease;
+    font-weight: bold;
+
 }
 
-button[type="submit"]:hover {
+.submit:hover {
+    transition: all 0.3s ease;
+    background-position: right center;
     background-color: #45a049;
+    color: #ccc;
 }
 
 .signup-container{
     width: 40%;
     height: 60%;
+    padding-top: 10%;
     margin: 20px auto auto auto;
     text-align: center;
     background-color: whitesmoke;
     border-radius: 20px;
+    background-image: url('https://i.imgur.com/AKKeimo.png');
+
 }

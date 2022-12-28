@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import "../css/LoginPage.css";
-import {SignUp} from "./SignUp";
 import {StartMatch} from "./StartMatch";
 import {NavLink, useNavigate} from "react-router-dom";
 import {sendApiGetRequest, sendApiPostRequest} from "../ApiRequests";
