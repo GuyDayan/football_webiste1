@@ -15,8 +15,24 @@ td {
     padding: 5px;
     text-align: left;
     border-bottom: 1px solid black;
+    border-color: #333;
+    transition: border-color 0.3s ease;
 }
 
 tr:hover {
-    background-color: whitesmoke;
+    /* Add a transition effect to make the change smoother */
+    transition: all 0.3s ease;
+
+    /* Change the background color on hover */
+    background-color: #ddd;
 }
+
+td:hover {
+    /* Add a transition effect to make the change smoother */
+    transition: all 0.3s ease;
+
+    /* Change the background color and text color on hover */
+    background-color: #ddd;
+    color: #333;
+}
+

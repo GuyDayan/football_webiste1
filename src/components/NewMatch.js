@@ -18,6 +18,7 @@ function NewMatch(props) {
         }, (response) => {
 
         });
+        props.updateLiveMatchesList();
 
     }
 
@@ -29,7 +30,6 @@ function NewMatch(props) {
         }, (response) => {
         });
         props.updateLiveMatchesList();
-
     }
 
     return (

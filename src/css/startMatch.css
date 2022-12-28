@@ -1,22 +1,23 @@
-.startMatch {
-    width: 50%;
-    height: 20%;
-    background-color: whitesmoke;
-    justify-content: center;
-    margin: 3% auto auto auto;
-    gap: 3%;
+.matches {
+    display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    border-radius: 20px;
+    justify-content: center;
+    background-color: whitesmoke;
+    gap: 10px;
 }
-.outer {
+.startMatch{
     background-color: whitesmoke;
-    justify-content: center;
-    display: inline;
-    margin: 3% auto auto auto;
-    gap: 3%;
-    align-items: center;
-    flex-wrap: wrap;
-    border-radius: 20px;
+    margin: 10px;
 }
 
+.outer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto auto auto;
+}
+
+.singleMatch {
+    display: grid;
+    text-align: center;
+}

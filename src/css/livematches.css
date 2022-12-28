@@ -1,13 +1,34 @@
-.vs {
-    display: table-row;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    height: auto;
-    width: 20%;
-    background-color: beige;
-    margin: 10px auto auto auto;
+.live-match {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #eee;
+    padding: 15px;
     border-radius: 10px;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    margin: 10px auto;
+    text-align: center;
+
+    /* Add a shadow effect */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+    /* Add a light color to the text */
+    color: #333;
+    animation: pulse 1s infinite;
+
+}
+
+.all-matches {
+    margin: 0 auto auto auto;
+}
+@keyframes pulse {
+    /* Define the animation steps */
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
 }
