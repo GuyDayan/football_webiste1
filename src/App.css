@@ -52,3 +52,64 @@
   background-color: #2F4055;
 }
 
+
+.Sidebar {
+  height: 100%;
+  width: 15%;
+  background-color: #2F4055;
+}
+
+.SidebarList {
+  height: auto;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.SidebarRow{
+  width: auto;
+  height: auto;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: whitesmoke;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+.NavRow {
+  text-decoration: none;
+  color: whitesmoke;
+  margin-top: 10%;
+}
+
+.SidebarRow:hover{
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.SidebarRow #active{
+  background-color: gold;
+}
+
+.SidebarRow #non-active{
+  background-color: rebeccapurple;
+}
+.SidebarRow #icon {
+  flex: auto;
+  display: grid;
+  place-items: center;
+}
+.SidebarRow #title {
+  flex: auto;
+}
+
+.container{
+  display: flex;
+  height:100vh;
+}
+
+

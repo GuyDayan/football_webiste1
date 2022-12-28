@@ -1,8 +1,7 @@
 import React, {useState , useEffect} from "react";
 import '../css/startMatch.css'
-import axios from "axios";
 import {sendApiGetRequest, sendApiGetRequestWithParams, sendApiPostRequest} from "../ApiRequests";
-import UpdateLiveMatch from "./UpdateLiveMatch";
+import NewMatch from "./NewMatch";
 
 
 export function StartMatch(props) {
@@ -13,6 +12,11 @@ export function StartMatch(props) {
     const [team2Score, setTeam2Score] = useState('0');
     const [liveMatches, setLiveMatches] = useState('');
     const [liveMatchChangeFlag, setLiveMatchChangeFlag] = useState(false);
+    const [currentErrorCode, setCurrentErrorCode] = useState('');
+    const [showError, setShowError] = useState(false);
+    const [errorList, setErrorList] = useState([
+        {errorCode: 81, reason: "one of the teams already played"},
+    ]);
 
     useEffect(() => {
         let currentUserId = window.$userDetails.userId;
@@ -46,6 +50,8 @@ export function StartMatch(props) {
 
 
     const startNewMatch = () => {
+        console.log(window.$userDetails.userId)
+        console.log(window.$userDetails.token)
         if ((team1IdSelected !== null) || (team2IdSelected !== null)) {
             sendApiPostRequest("http://localhost:8989/add-new-live-match?", {
                 team1Id: team1IdSelected,
@@ -53,10 +59,22 @@ export function StartMatch(props) {
                 userId: window.$userDetails.userId,
                 token: window.$userDetails.token
             }, (response) => {
-                const newMatch = response.data.newMatch;
-                setLiveMatches(liveMatches.concat(newMatch));
+                const newLiveMatchResponse = response.data
+                if (response.success){
+                    const newMatch = response.data.newMatch;
+                    setLiveMatches(liveMatches.concat(newMatch));
+                }else {
+                    setCurrentErrorCode(newLiveMatchResponse.errorCode)
+                    setShowError(true)
+                }
+
             });
         }
+    }
+
+    const findError = () => {
+        let foundError = errorList.find(error => error.errorCode === currentErrorCode);
+        return foundError.reason;
     }
 
     const handleUpdateMatchList =()=>{
@@ -66,37 +84,39 @@ export function StartMatch(props) {
 
     return (
         <div className={"outer"}>
-        <div className={"startMatch"}>
-            <div>
-                <select name="team1" style={{height: '20px'}} onChange={handleTeam1Options}>
-                    <option value={''}>Select Team 1</option>
-                    {
-                        teams.filter(team => team.id !== team2IdSelected).map(team => (
-                            <option key={team.id} value={team.name}>{team.name}</option>))
-                    }
-                </select>
-                {/*<input value={team1Score} onChange={event => setTeam1Score(event.target.value)}/>*/}
-            </div>
-            <div>
-                <select name="team2" style={{height: '20px'}} onChange={handleTeam2Options}>
-                    <option value={''}>Select Team 2</option>
-                    {
-                        teams.filter(team => team.id !== team1IdSelected).map(team => (
-                            <option key={team.id} value={team.name}>{team.name}</option>))
-                    }
-                </select>
+            <div className={"startMatch"}>
+                <div>
+                    <select name="team1" style={{height: '20px'}} onChange={handleTeam1Options}>
+                        <option value={''}>Select Team 1</option>
+                        {
+                            teams.filter(team => team.id !== team2IdSelected).map(team => (
+                                <option key={team.id} value={team.name}>{team.name}</option>))
+                        }
+                    </select>
+                    {/*<input value={team1Score} onChange={event => setTeam1Score(event.target.value)}/>*/}
+                </div>
+                <div>
+                    <select name="team2" style={{height: '20px'}} onChange={handleTeam2Options}>
+                        <option value={''}>Select Team 2</option>
+                        {
+                            teams.filter(team => team.id !== team1IdSelected).map(team => (
+                                <option key={team.id} value={team.name}>{team.name}</option>))
+                        }
+                    </select>
 
-                {/*<input value={team2Score} onChange={(event => setTeam2Score(event.target.value))}/>*/}
-            </div>
+                    {/*<input value={team2Score} onChange={(event => setTeam2Score(event.target.value))}/>*/}
+                </div>
 
-            <div>
-                <button onClick={startNewMatch} disabled={(team1IdSelected===null || team2IdSelected === null)}>START LIVE MATCH</button>
+                <div>
+                    <button onClick={startNewMatch} disabled={(team1IdSelected===null || team2IdSelected === null)}>START LIVE MATCH</button>
+                </div>
             </div>
-        </div>
             <div className={"matches"}>
-            {liveMatches.length > 0 && liveMatches.map(newMatch => <UpdateLiveMatch newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
+                {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
             </div>
-
+            <div>
+                {showError === true && findError()}
+            </div>
         </div>
     )
 }

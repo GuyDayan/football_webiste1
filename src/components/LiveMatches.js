@@ -3,7 +3,7 @@ import "../css/livematches.css"
 import {useEffect} from "react";
 import {sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
 import LiveMatch from "./LiveMatch";
-import UpdateLiveMatch from "./UpdateLiveMatch";
+import NewMatch from "./NewMatch";
 
 
 function LiveMatches() {

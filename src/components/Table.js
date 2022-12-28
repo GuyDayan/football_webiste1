@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import '../css/table.css'
-import TeamLogo from "../TeamLogo";
 import {useEffect} from "react";
-import axios from "axios";
 import {sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
 
 function Table() {

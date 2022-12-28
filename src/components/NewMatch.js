@@ -1,7 +1,7 @@
 import React, {createContext, useState} from 'react';
 import {sendApiPostRequest} from "../ApiRequests";
 
-function UpdateLiveMatch(props) {
+function NewMatch(props) {
     let currentNewMatch = props.newMatch;
     const [team1Goals, setTeam1Goals] = useState(currentNewMatch.team1_goals);
     const [team2Goals, setTeam2Goals] = useState(currentNewMatch.team2_goals);
@@ -18,9 +18,6 @@ function UpdateLiveMatch(props) {
         }, (response) => {
 
         });
-        let flag = window.$userDetails.updateMatchFlag
-        window.$userDetails.updateMatchFlag = !flag
-        console.log(window.$userDetails.updateMatchFlag)
 
     }
 
@@ -44,8 +41,9 @@ function UpdateLiveMatch(props) {
             <input value={team2Goals} onChange={e=> setTeam2Goals(e.target.value)}/>
             <button onClick={updateMatchScore}>Update</button>
             <button onClick={endMatch}>End</button>
+
         </div>
     );
 }
 
-export default UpdateLiveMatch;
+export default NewMatch;
