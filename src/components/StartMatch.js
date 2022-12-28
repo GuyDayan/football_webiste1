@@ -12,6 +12,7 @@ export function StartMatch(props) {
     const [liveMatchChangeFlag, setLiveMatchChangeFlag] = useState(false);
     const [currentErrorCode, setCurrentErrorCode] = useState('');
     const [showError, setShowError] = useState(false);
+    const [showSuccessful, setShowSuccessful] = useState(false);
     const [errorList, setErrorList] = useState([
         {errorCode: 81, reason: "one of the teams already played"},
     ]);
@@ -30,9 +31,10 @@ export function StartMatch(props) {
         sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {userId: currentUserId, token: currentToken}, (response) => {
             let getLiveMatchResponse = response.data;
             const liveMatches = getLiveMatchResponse.matches;
+            console.log(liveMatches)
             setLiveMatches(liveMatches)
         });
-    }, [liveMatchChangeFlag,liveMatches.length]);
+    }, [liveMatchChangeFlag]);
 
 
 
@@ -60,13 +62,15 @@ export function StartMatch(props) {
                 const newLiveMatchResponse = response.data
                 if (response.success){
                     const newMatch = response.data.newMatch;
-                    setLiveMatches(liveMatches.concat(newMatch));
+                    setLiveMatches([...liveMatches, newMatch]);
                     setCurrentErrorCode('')
                     setShowError(false)
-                    setLiveMatchChangeFlag(!liveMatchChangeFlag)
+                    setShowSuccessful(true)
                 }else {
                     setCurrentErrorCode(newLiveMatchResponse.errorCode)
                     setShowError(true)
+                    setShowSuccessful(false)
+
                 }
 
             });
@@ -74,13 +78,10 @@ export function StartMatch(props) {
     }
 
 
-    function changeFlag() {
-        setLiveMatchChangeFlag(!liveMatchChangeFlag)
-    }
 
     const handleUpdateMatchList =()=>{
         setLiveMatchChangeFlag(!liveMatchChangeFlag)
-        changeFlag()
+        console.log("fff")
     }
 
 
@@ -116,7 +117,8 @@ export function StartMatch(props) {
                 {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch key={newMatch.id} newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
             </div>
             <div>
-                {currentErrorCode === 81 &&  "one of the teams already played"}
+                {showError === true  && currentErrorCode === 81 &&  "one of the teams already played"}
+                {showSuccessful === true && "Match has been added successfully"}
             </div>
         </div>
     )

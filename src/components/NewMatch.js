@@ -30,6 +30,7 @@ function NewMatch(props) {
         }, (response) => {
         });
         props.updateLiveMatchesList();
+
     }
 
     return (

@@ -29,6 +29,7 @@ function LiveMatches() {
             }, (response) => {
                 let getLiveMatchResponse = response.data;
                 const liveMatches = getLiveMatchResponse.matches;
+                console.log("here")
                 setLiveMatches(liveMatches)
             })
         }
