@@ -9,7 +9,6 @@ import NewMatch from "./NewMatch";
 function LiveMatches() {
     const [liveMatches, setLiveMatches] = useState([])
     const [teams, setTeams] = useState([]);
-    const [liveTableUpdateFlag, setLiveTableUpdateFlag] = useState(false);
     const [loggedIn, setLoggedIn] = useState(window.$userDetails.loggedIn);
 
 
@@ -27,26 +26,26 @@ function LiveMatches() {
         }
     }, [])
 
+
+
     useEffect(() => {
-        fetchData()
-        return () => {
-            const interval = setInterval(() => {
-            }, 5000);
-            return () => clearInterval(interval);
-        };
+        fetchData();
+        const interval = setInterval(() => {
+            fetchData();
+        }, 5000);
+        return () => clearInterval(interval);
     }, []);
 
-    async function fetchData(){
+    async function fetchData() {
         sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {
-            userId: window.$userDetails.userId,
-            token: window.$userDetails.token
-        }, (response) => {
-            let getLiveMatchResponse = response.data;
-            const liveMatches = getLiveMatchResponse.matches;
-            console.log("here")
-            setLiveMatches(liveMatches)
-        })
-
+                userId: window.$userDetails.userId,
+                token: window.$userDetails.token
+            }, (response) => {
+                let getLiveMatchResponse = response.data;
+                const liveMatches = getLiveMatchResponse.matches;
+                setLiveMatches(liveMatches)
+            }
+        );
     }
 
 

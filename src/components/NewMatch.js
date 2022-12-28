@@ -2,6 +2,7 @@ import React, {createContext, useState} from 'react';
 import {sendApiPostRequest} from "../ApiRequests";
 
 function NewMatch(props) {
+
     let currentNewMatch = props.newMatch;
     const [team1Goals, setTeam1Goals] = useState(currentNewMatch.team1_goals);
     const [team2Goals, setTeam2Goals] = useState(currentNewMatch.team2_goals);
@@ -18,26 +19,22 @@ function NewMatch(props) {
         }, (response) => {
 
         });
-        props.updateLiveMatchesList();
-        window.$userDetails.updateMatchFlag = !window.$userDetails.updateMatchFlag
 
     }
 
     function endMatch() {
+        props.onDelete(currentNewMatch.id);
         sendApiPostRequest("http://localhost:8989/end-match?", {
             matchId: currentNewMatch.id,
             userId: window.$userDetails.userId,
             token: window.$userDetails.token
         }, (response) => {
         });
-        props.updateLiveMatchesList();
-        window.$userDetails.updateMatchFlag = !window.$userDetails.updateMatchFlag
-
 
     }
 
     return (
-        <div>
+        <div className={'new-match'}>
             {currentNewMatch.team1.name}
             <input value={team1Goals} onChange={e => setTeam1Goals(e.target.value)}/>
             <div>Vs</div>

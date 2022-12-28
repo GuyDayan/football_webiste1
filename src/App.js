@@ -15,24 +15,6 @@ import {useEffect, useState} from "react";
 
 function App() {
 
-    const [teams, setTeams] = useState([]);
-
-
-    useEffect(() => {
-            sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {
-                userId: window.$userDetails.userId,
-                token: window.$userDetails.token
-            }, (response) => {
-                let response1 = response.data;
-                const teams = response1.teamList;
-                setTeams(teams);
-            })
-
-        }, []
-    )
-
-
-
 
     return (
         <div>

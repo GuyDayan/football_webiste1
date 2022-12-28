@@ -17,6 +17,13 @@
 
 }
 
+.new-match {
+    display: grid;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .all-matches {
     margin: 0 auto auto auto;
 }

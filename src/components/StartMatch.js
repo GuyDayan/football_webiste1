@@ -8,7 +8,7 @@ export function StartMatch(props) {
     const [team1IdSelected, setTeam1IdSelected] = useState(null);
     const [team2IdSelected, setTeam2IdSelected] = useState(null);
     const [teams, setTeams] = useState([]);
-    const [liveMatches, setLiveMatches] = useState('');
+    const [liveMatches, setLiveMatches] = useState([]);
     const [liveMatchChangeFlag, setLiveMatchChangeFlag] = useState(false);
     const [currentErrorCode, setCurrentErrorCode] = useState('');
     const [showError, setShowError] = useState(false);
@@ -20,21 +20,39 @@ export function StartMatch(props) {
 
 
     useEffect(() => {
+        fetchTeams();
+        fetchLiveMatches()
+    }, []);
+
+
+    async function fetchTeams() {
         let currentUserId = window.$userDetails.userId;
         let currentToken = window.$userDetails.token;
-        sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {userId: currentUserId, token: currentToken}, (response) => {
-            let response1 = response.data;
-            const teams = response1.teamList;
-            setTeams(teams)
-        })
+        sendApiGetRequestWithParams(
+            "http://localhost:8989/get-teams?",
+            { userId: currentUserId, token: currentToken },
+            (response) => {
+                let response1 = response.data;
+                const teams = response1.teamList;
+                setTeams(teams);
+            }
+        );
+    }
+    //
+    async function fetchLiveMatches() {
+        let currentUserId = window.$userDetails.userId;
+        let currentToken = window.$userDetails.token;
+        sendApiGetRequestWithParams(
+            "http://localhost:8989/get-live-matches?",
+            { userId: currentUserId, token: currentToken },
+            (response) => {
+                let getLiveMatchResponse = response.data;
+                const liveMatches = getLiveMatchResponse.matches;
+                setLiveMatches(liveMatches);
+            }
+        );
+    }
 
-        sendApiGetRequestWithParams("http://localhost:8989/get-live-matches?", {userId: currentUserId, token: currentToken}, (response) => {
-            let getLiveMatchResponse = response.data;
-            const liveMatches = getLiveMatchResponse.matches;
-            console.log(liveMatches)
-            setLiveMatches(liveMatches)
-        });
-    }, [liveMatchChangeFlag]);
 
 
 
@@ -60,9 +78,9 @@ export function StartMatch(props) {
                 token: window.$userDetails.token
             }, (response) => {
                 const newLiveMatchResponse = response.data
-                if (response.success){
-                    const newMatch = response.data.newMatch;
-                    setLiveMatches([...liveMatches, newMatch]);
+                if (newLiveMatchResponse.success){
+                    const newMatch = newLiveMatchResponse.newMatch;
+                    setLiveMatches((prevLiveMatches) => [...prevLiveMatches, newMatch]);
                     setCurrentErrorCode('')
                     setShowError(false)
                     setShowSuccessful(true)
@@ -74,12 +92,11 @@ export function StartMatch(props) {
 
             });
         }
+
     }
 
-
-
-    const handleUpdateMatchList =()=>{
-        setLiveMatchChangeFlag(() => !liveMatchChangeFlag)
+    function handleDelete(matchId) {
+        setLiveMatches(item=> item.filter(match=>match.id !== matchId))
     }
 
 
@@ -89,7 +106,7 @@ export function StartMatch(props) {
             <div className={"startMatch"}>
                 <div>
                     <select name="team1" style={{height: '20px'}} onChange={handleTeam1Options}>
-                        <option value={'-1'}>Select Team 1</option>
+                        <option value={''}>Select Team 1</option>
                         {
                             teams.filter(team => team.id !== team2IdSelected).map(team => (
                                 <option key={team.id} value={team.name}>{team.name}</option>))
@@ -98,7 +115,7 @@ export function StartMatch(props) {
                 </div>
                 <div>
                     <select name="team2" style={{height: '20px'}} onChange={handleTeam2Options}>
-                        <option value={'-1'}>Select Team 2</option>
+                        <option value={''}>Select Team 2</option>
                         {
                             teams.filter(team => team.id !== team1IdSelected).map(team => (
                                 <option key={team.id} value={team.name}>{team.name}</option>))
@@ -112,7 +129,7 @@ export function StartMatch(props) {
                 </div>
             </div>
             <div className={"matches"}>
-                {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch key={newMatch.id} newMatch={newMatch} updateLiveMatchesList={handleUpdateMatchList}/>)}   {/* check if there is new matches and render the exsits  */}
+                {liveMatches.length > 0 && liveMatches.map(newMatch => <NewMatch key={newMatch.id} newMatch={newMatch} onDelete={handleDelete}/>)}
             </div>
             <div>
                 {showError === true  && currentErrorCode === 81 &&  "one of the teams already played"}
