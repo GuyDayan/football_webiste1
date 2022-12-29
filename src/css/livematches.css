@@ -2,25 +2,35 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #eee;
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
     margin: 10px auto;
     text-align: center;
 
+}
+
+.singleTeam{
+    background-color: silver;
+    padding: 15px;
+    border-radius: 10px;
+    min-width: 0;
+    width: 30%;
+    align-self: stretch;
     /* Add a shadow effect */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
     /* Add a light color to the text */
-    color: #333;
     animation: pulse 1s infinite;
 
+
 }
+
+
 
 .new-match {
     display: grid;
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
 }
 

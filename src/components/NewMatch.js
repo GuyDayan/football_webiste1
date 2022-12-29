@@ -1,5 +1,6 @@
 import React, {createContext, useState} from 'react';
 import {sendApiPostRequest} from "../ApiRequests";
+import '../css/startMatch.css'
 
 function NewMatch(props) {
 
@@ -40,8 +41,8 @@ function NewMatch(props) {
             <div>Vs</div>
             {currentNewMatch.team2.name}
             <input value={team2Goals} onChange={e=> setTeam2Goals(e.target.value)}/>
-            <button onClick={updateMatchScore}>Update</button>
-            <button onClick={endMatch}>End</button>
+            <button onClick={updateMatchScore} style={{background:'green'}}>Update</button>
+            <button onClick={endMatch} style={{background: 'indianred'}}>End</button>
 
         </div>
     );

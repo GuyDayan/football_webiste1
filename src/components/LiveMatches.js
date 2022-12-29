@@ -1,9 +1,10 @@
 import React, {useContext, useState} from 'react';
 import "../css/livematches.css"
 import {useEffect} from "react";
-import {sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
+import {getTeamsRequest, sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
 import LiveMatch from "./LiveMatch";
 import NewMatch from "./NewMatch";
+import {NavLink} from "react-router-dom";
 
 
 function LiveMatches() {
@@ -14,9 +15,7 @@ function LiveMatches() {
 
     useEffect(() => {
         if (loggedIn) {
-            sendApiGetRequestWithParams("http://localhost:8989/get-teams?", {
-                userId: window.$userDetails.userId,
-                token: window.$userDetails.token
+            getTeamsRequest( {userId: window.$userDetails.userId, token: window.$userDetails.token
             }, (response) => {
                 let response1 = response.data;
                 const teams = response1.teamList;
@@ -65,7 +64,11 @@ function LiveMatches() {
 
     return (
         <div className={'all-matches'}>
-            {loggedIn ? liveMatches.length > 0 ? liveMatches.map(match => <LiveMatch currentLiveMatch={getCurrentLiveMatch(match)}/>) : 'No live matches yet' : 'Pls logged in first' }
+            {loggedIn ? liveMatches.length > 0 ? liveMatches.map(match => <LiveMatch currentLiveMatch={getCurrentLiveMatch(match)}/>) : 'No live matches yet' :
+                <div className={'pleaseLog'} >YOU MUST TO LOG IN TO SEE LIVE FEATURES
+                    <br/>
+                    <NavLink to={"/"}><button>NAVIGATE TO LOG IN</button></NavLink></div>
+            }
         </div>
     );
 }

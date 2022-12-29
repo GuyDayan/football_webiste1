@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import '../css/table.css'
 import {useEffect} from "react";
-import {sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
+import {getLiveTableRequest, sendApiGetRequest, sendApiGetRequestWithParams} from "../ApiRequests";
+import {NavLink} from "react-router-dom";
+import {TeamLogo} from "./TeamLogo";
+import {calculateTeamsStats} from "./CalculateTeamStats";
 
 function LiveTable() {
     const [sortedTable, setSortedTable] = useState([]);
     const [loggedIn, setLoggedIn] = useState(window.$userDetails.loggedIn);
-    const [liveTableFlag, setLiveTableFlag] = useState(false);
-    const [teamStats, setTeamStats] = useState([]);
-
 
     useEffect(() => {
         fetchData();
@@ -19,13 +19,13 @@ function LiveTable() {
     }, []);
 
     async function fetchData() {
-        sendApiGetRequestWithParams(
-            "http://localhost:8989/get-live-table?",
+        getLiveTableRequest(
             { userId: window.$userDetails.userId, token: window.$userDetails.token },
             (response) => {
                 let currentResponse = response.data;
                 let currentTeamStats = currentResponse.teamStats;
-                calculateTeamsStats(currentTeamStats);
+                let sortedTable=calculateTeamsStats(currentTeamStats);
+                setSortedTable(sortedTable)
             }
         );
     }
@@ -33,18 +33,6 @@ function LiveTable() {
 
 
 
-    const calculateTeamsStats = (currentTeamStats) => {
-        const sorted =  currentTeamStats.slice().sort((team1, team2) => {
-            if (team1.points === team2.points) {
-                if (team1.goalsBalance === team2.goalsBalance) {
-                    return team1.name > team2.name ? 1 : -1;
-                }
-                return team1.goalsBalance > team2.goalsBalance ? -1 : 1;
-            }
-            return team1.points > team2.points ? -1 : 1;
-        })
-        setSortedTable(sorted)
-    }
 
 
     return (
@@ -54,6 +42,7 @@ function LiveTable() {
                 <table>
                     <thead>
                     <tr>
+                        <th>Logo</th>
                         <th>Name</th>
                         <th>Games</th>
                         <th>GF</th>
@@ -68,6 +57,7 @@ function LiveTable() {
                     <tbody>
                     {sortedTable.map(item => (
                         <tr>
+                            <td><img src={TeamLogo[item.id -1].src} style={{width: '30px', height: '30px'}} alt={''}/></td>
                             <td>{item.name}</td>
                             <td>{item.totalGames}</td>
                             <td>{item.goalsFor}</td>
@@ -81,7 +71,9 @@ function LiveTable() {
                     ))}
                     </tbody>
                 </table>
-                : 'Pls logged in first' }
+                : <div className={'pleaseLog'} >YOU MUST TO LOG IN TO SEE LIVE FEATURES
+                    <br/>
+                    <NavLink to={"/"}><button>NAVIGATE TO LOG IN</button></NavLink></div> }
 
         </>
     );

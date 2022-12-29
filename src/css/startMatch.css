@@ -2,12 +2,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: whitesmoke;
     gap: 10px;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    width: available;
+    padding: 10px;
 }
+.new-match{
+    background-color: lightgrey;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+
+
 .startMatch{
-    background-color: whitesmoke;
+    background-color: silver;
     margin: 10px;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .outer {
@@ -22,12 +37,12 @@
     text-align: center;
 }
 select {
-    background-color: lightgray;
+    background-color: whitesmoke;
     font-size: 18px;
 }
 option {
     font-size: 18px;
-    background-color: #ffffff;
+    background-color: whitesmoke;
 }
 
 option:before {
@@ -41,4 +56,20 @@ option:before {
 
 option:hover:before {
     display: inline;
+}
+
+input{
+    text-align: center;
+}
+
+.StartMatch {
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    /* Add a hover effect to the gradient */
+    background-size: 200% auto;
+    transition: all .5s ease;
+    font-weight: bold;
 }

@@ -9,12 +9,11 @@ export function StartMatch(props) {
     const [team2IdSelected, setTeam2IdSelected] = useState(null);
     const [teams, setTeams] = useState([]);
     const [liveMatches, setLiveMatches] = useState([]);
-    const [liveMatchChangeFlag, setLiveMatchChangeFlag] = useState(false);
     const [currentErrorCode, setCurrentErrorCode] = useState('');
     const [showError, setShowError] = useState(false);
     const [showSuccessful, setShowSuccessful] = useState(false);
     const [errorList, setErrorList] = useState([
-        {errorCode: 81, reason: "one of the teams already played"},
+        {errorCode: 81, reason: "One of the teams already played"},
     ]);
 
 
@@ -97,6 +96,7 @@ export function StartMatch(props) {
 
     function handleDelete(matchId) {
         setLiveMatches(item=> item.filter(match=>match.id !== matchId))
+        setShowSuccessful(false);
     }
 
 
@@ -125,7 +125,7 @@ export function StartMatch(props) {
                 </div>
 
                 <div>
-                    <button onClick={startNewMatch} disabled={(team1IdSelected===null || team2IdSelected === null)}>START LIVE MATCH</button>
+                    <button className={'StartMatch'} onClick={startNewMatch} disabled={(team1IdSelected===null || team2IdSelected === null)}>START LIVE MATCH</button>
                 </div>
             </div>
             <div className={"matches"}>

@@ -5,12 +5,9 @@ import LiveMatches from "./components/LiveMatches";
 import Table from "./components/Table";
 import LiveTable from "./components/LiveTable";
 import LoginPage from "./components/LoginPage";
-import About from "./components/About";
-import Settings from "./components/Settings";
 import {SignUp} from "./components/SignUp";
 import {StartMatch} from "./components/StartMatch";
-import {sendApiGetRequest, sendApiGetRequestWithParams} from "./ApiRequests";
-import {useEffect, useState} from "react";
+
 
 
 function App() {
@@ -42,9 +39,7 @@ function App() {
                         <Route path={"/live-matches"} element={<LiveMatches/>}/>
                         <Route path={"/table"} element={<Table/>}/>
                         <Route path={"/live-table"} element={<LiveTable/>}/>
-                        <Route path={"/login"} element={<LoginPage/>}/>
-                        <Route path={"/about"} element={<About/>}/>
-                        <Route path={"/settings"} element={<Settings/>}/>
+                        <Route path={"/"} element={<LoginPage/>}/>
                         <Route path={"/signup"} element={<SignUp/>}/>
                         <Route path={"/start-match"} element={<StartMatch/>}/>
                     </Routes>

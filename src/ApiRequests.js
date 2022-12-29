@@ -34,3 +34,42 @@ export const sendApiPostRequest = (request, params, callback) => {
         }
     })
 }
+
+export const getTeamsRequest = (params, callback) => {
+    let path= "http://localhost:8989/get-teams?";
+    axios.get(path, null, {params
+    }).then(response => {
+        if (callback) {
+            callback(response);
+        }
+    })
+}
+
+
+
+export const sendSignInRequest = (params, callback) => {
+    let path= "http://localhost:8989/sign-in?";
+    axios.post(path, null, {
+        params
+    }).then(response => {
+        if (callback) {
+            callback(response);
+        }
+    })
+}
+
+
+export const getLiveTableRequest = (params, callback) => {
+    let path = "http://localhost:8989/get-live-table?"
+    axios.get(path, {
+        params
+    })
+        .then(response => {
+            if (callback) {
+                callback(response);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}

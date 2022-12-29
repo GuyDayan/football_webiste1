@@ -1,3 +1,6 @@
+import '../css/livematches.css'
+import {TeamLogo} from "./TeamLogo";
+
 function LiveMatch(props) {
     let liveMatch = props.currentLiveMatch;
     let team1style={};
@@ -18,10 +21,15 @@ function LiveMatch(props) {
 
     return (
         <div className={'live-match'}>
-            <div style={team1style}>{liveMatch.team1Name} <br/>
+            <div className={'singleTeam'} style={team1style}><img src={TeamLogo.find(logo => logo.name ===  liveMatch.team1Name).src} style={{width:'40px',height:'40px'}} />
+                <br/>
+                {liveMatch.team1Name} <br/>
                 {liveMatch.team1Goals}</div>
             &nbsp; VS &nbsp;
-            <div style={team2style} >{liveMatch.team2Name}<br/>
+            <div className={'singleTeam'} style={team2style}>
+                <img src={TeamLogo.find(logo => logo.name ===  liveMatch.team2Name).src} style={{width:'40px',height:'40px'}} />
+                <br/>
+                {liveMatch.team2Name}<br/>
                 {liveMatch.team2Goals}</div>
         </div>
     );

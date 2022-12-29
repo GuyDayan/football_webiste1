@@ -12,7 +12,7 @@ export function SignUp() {
     const [showError, setShowError] = useState(false);
     const [signUpSuccess, setSignUpSuccess] = useState(false);
     const [errorList, setErrorList] = useState([
-        {errorCode: 1, reason: "username must contain @ and length contain more than 5 chars"},
+        {errorCode: 1, reason: "username must contain @ and more than 5 chars"},
         {errorCode: 2, reason: "password length must be at least 8 digits"},
         {errorCode: 3, reason: "username already exist"}
     ]);
@@ -48,7 +48,7 @@ export function SignUp() {
                 signUpSuccess === true ?
                     <div>
                         <h2>Sign-Up has been successfully! </h2>
-                        <NavLink to={"/login"}>Click here to Login</NavLink>
+                        <NavLink to={"/"}>Click here to Login</NavLink>
                     </div>
                     :
                     <div>
@@ -74,12 +74,14 @@ export function SignUp() {
                             (password !== secondPassword) && (password.length > 0 && secondPassword.length > 0) &&
                             <div>Passwords dont match</div>
                         }
+                        {
+                         <span style={{color:"red"}}>{showError === true && findError() }</span>
+                        }
                         <div>
                             <button className={"submit"} onClick={onSignup}>Sign up</button>
                         </div>
-                        <div>
-                            {showError === true && findError()}
-                        </div>
+
+
                     </div>
             }
 

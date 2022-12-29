@@ -32,7 +32,6 @@ input {
     background-size: 200% auto;
     transition: all .5s ease;
     font-weight: bold;
-
 }
 
 .submit:hover {
